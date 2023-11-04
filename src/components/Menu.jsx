@@ -58,7 +58,7 @@ const Menu = ({ getTheme, setTheme }) => {
 
         <Login>
           Sign in to like videos, comment, and subscribe.
-          <Link to="/signin">
+          <Link style={{textDecoration: "none"}} to="/signin">
             <LoginBtn>
               <AccountCircleOutlinedIcon /> <SignIn>SIGN IN</SignIn>
             </LoginBtn>
