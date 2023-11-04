@@ -26,11 +26,12 @@ const Menu = ({ getTheme, setTheme }) => {
   return (
     <Container>
       <Wrapper>
-
-        <Logo>
-          <Img src={LogoImg} alt="logo"/>
-          <Name>MeTube</Name>
-        </Logo>
+        <Link to="/" style={{textDecoration: "none", color:"inherit"}}>
+          <Logo>
+            <Img src={LogoImg} alt="logo"/>
+            <Name>MeTube</Name>
+          </Logo>
+        </Link>
 
         <Item>
           <HomeIcon />
@@ -103,7 +104,7 @@ const Menu = ({ getTheme, setTheme }) => {
 
 const Container = styled.div`
   flex: 1;
-  background-color: ${({theme}) => theme.bg}; //using ThemeProvider
+  background-color: ${({theme}) => theme.bgLighter}; //using ThemeProvider
   color: ${({theme}) => theme.text};
   height: 100vh;
   font-size: 14px;

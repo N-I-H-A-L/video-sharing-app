@@ -4,6 +4,9 @@ import Menu from './components/Menu';
 import Navbar from './components/Navbar';
 import { darkTheme, lightTheme } from './utils/Theme';
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './pages/Home';
+import Video from './pages/Video';
 
 function App() {
   const [theme, setTheme] = useState("dark");
@@ -11,13 +14,23 @@ function App() {
     //ThemeProvider of styled components helps to set theme easily.
     <ThemeProvider theme={theme=="dark"?darkTheme:lightTheme}>
       <Container>
+      <BrowserRouter>
         <Menu getTheme={theme} setTheme={setTheme}/>
         <Main>
           <Navbar />
           <Wrapper>
-
+            <Routes>
+              <Route path="/">
+                {/* Nested Routes: "index" refers to the default element for "/" route.*/}
+                <Route index element={<Home />} />
+                <Route path="video"> {/* When route is: "/video" */}
+                  <Route path=":id" element={<Video />} /> {/* When route is: "/video/23534ajs" */}
+                </Route>
+              </Route>
+            </Routes>
           </Wrapper>
         </Main>
+      </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
@@ -30,11 +43,12 @@ const Container = styled.div`
 
 const Main = styled.div`
   flex: 7;
-  background-color: #181818;
+  background-color: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 const Wrapper = styled.div`
-
+  
 `;
 
 export default App;

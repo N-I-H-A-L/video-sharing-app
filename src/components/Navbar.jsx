@@ -18,7 +18,7 @@ const Navbar = () => {
 }
 
 const Container = styled.div`
-  background-color: ${({theme}) => theme.bgLighter};
+  background-color: ${({theme}) => theme.bg};
   position: sticky;
   top: 0;
 `;
@@ -53,12 +53,12 @@ const Search = styled.div`
 const Input = styled.input`
   border: none;
   outline: none;
-  color: ${({ theme }) => theme.text};
+  color: ${({ theme }) => theme.textSoft};
   background-color: transparent;
   width: 90%;
 
   &::placeholder{
-    color: ${({ theme }) => theme.text};
+    color: ${({ theme }) => theme.textSoft};
   }
 `;
 
