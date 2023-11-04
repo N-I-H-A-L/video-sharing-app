@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const Card = () => {
+const Card = ({ type }) => {
   return (
     //The whole card will be a link to the video
     <Link to="/video/test_id" style={{textDecoration: "none"}}>
-      <Container>
+      {/* Sending props to elements using Styled Components */}
+      <Container type={type}>
           <Image src="https://i9.ytimg.com/vi_webp/k3Vfj-e1Ma4/mqdefault.webp?v=6277c159&sqp=CIjm8JUG&rs=AOn4CLDeKmf_vlMC1q9RBEZu-XQApzm6sA" />
           <Details>
             <ChannelLogo />
@@ -26,9 +27,10 @@ const Card = () => {
 const Container = styled.div`
   width: 360px;
   margin: 10px;
-  margin-bottom: 45px;
+  margin-bottom: ${(props)=>props.type==="sm"?"10px":"45px"};
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
+  display: ${(props)=>props.type==="sm" && "flex"};
 
     &:hover{
       cursor: pointer;

@@ -5,6 +5,7 @@ import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutl
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from '../components/Comments';
+import Card from '../components/Card';
 
 const Video = () => {
   return (
@@ -45,7 +46,7 @@ const Video = () => {
           </Utilities>
 
           <ChannelInfo>
-            <ChannelLogo />
+            <ChannelLogo src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo"/>
             <About>
               <ChannelName>Mera Channel</ChannelName>
               <SubsCount>256K Subscribers</SubsCount>
@@ -59,7 +60,15 @@ const Video = () => {
       </Content>
       
       <Recommend>
-        Recommndation
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
+        <Card type="sm"/>
       </Recommend>
 
     </Container>
@@ -111,7 +120,7 @@ const Options = styled.div`
 
 const ChannelInfo = styled.div`
   display: flex;
-  margin-top: 10px;
+  margin-top: 20px;
   gap: 10px;
 `;
 
@@ -133,11 +142,11 @@ const Desc = styled.div`
   font-size: 15px;
 `;
 
-const ChannelLogo = styled.div`
+const ChannelLogo = styled.img`
   height: 36px;
   width: 36px;
-  background-color: #999;
   margin-top: 10px;
+  border-radius: 50%;
 `;
 
 const Button = styled.div`
