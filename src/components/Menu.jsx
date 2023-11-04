@@ -137,16 +137,17 @@ const Item = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
+  padding: 3px;
 
   &:hover{
     cursor: pointer;
+    background-color: ${({theme}) => theme.soft};
   }
 `;
 
 const Hr = styled.hr`
   border: 0.5px;
-  margin: 10px 0px;
+  margin: 8px 0px;
 `;
 
 const Login = styled.div`
