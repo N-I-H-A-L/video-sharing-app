@@ -17,8 +17,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
+import { useSelector } from 'react-redux';
 
 const Menu = ({ getTheme, setTheme }) => {
+  const { currentUser } = useSelector(state=>state.user);
   const toggleTheme = () =>{
     if(getTheme==="dark") setTheme("light");
     else setTheme("dark");
@@ -62,15 +64,17 @@ const Menu = ({ getTheme, setTheme }) => {
         </Item>
         <Hr />
 
-        <Login>
-          Sign in to like videos, comment, and subscribe.
-          <Link style={{textDecoration: "none"}} to="/signin">
-            <LoginBtn>
-              <AccountCircleOutlinedIcon /> <SignIn>SIGN IN</SignIn>
-            </LoginBtn>
-          </Link>
-        </Login>
-        <Hr />
+        {!currentUser && <>
+          <Login>
+            Sign in to like videos, comment, and subscribe.
+            <Link style={{textDecoration: "none"}} to="/signin">
+              <LoginBtn>
+                <AccountCircleOutlinedIcon /> <SignIn>SIGN IN</SignIn>
+              </LoginBtn>
+            </Link>
+          </Login>
+          <Hr />
+        </>}
 
         <Hr />
         <Item>

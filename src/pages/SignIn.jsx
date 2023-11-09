@@ -1,19 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axiosClient from "../axios.js";
+import { useDispatch } from 'react-redux';
+import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice.js';
 
 const SignIn = () => {
+  const [name, setName] = useState();
+  const [pass, setPass] = useState();
+  const [email, setEmail] = useState();
+  const dispatch = useDispatch();
+
+  const handleLogin = async (e) =>{
+    e.preventDefault();
+    dispatch(loginStart());
+    await axiosClient.post("/auth/signin", {name, password: pass})
+        .then((res)=>{
+          dispatch(loginSuccess(res.data));
+        })
+        .catch(()=>{
+          dispatch(loginFailure());
+        });
+  }
+
   return (
     <Container>
       <Wrapper>
         <Sign>Sign In</Sign>  
         <Continue>to continue to MeTube</Continue>
-        <InputNameIn placeholder="username" />
-        <InputPassIn placeholder="password" />
-        <SignInBtn>Sign In</SignInBtn>
+        <InputNameIn placeholder="username" value={name} onChange={(e)=>setName(e.target.value)}/>
+        <InputPassIn placeholder="password" type="password" value={pass} onChange={(e)=>setPass(e.target.value)}/>
+        <SignInBtn onClick={handleLogin}>Sign In</SignInBtn>
         <Span>or</Span>
-        <InputNameUp placeholder="username" />
-        <InputEmailUp placeholder="email" />
-        <InputPassUp placeholder="password" />
+        <InputNameUp placeholder="username"/>
+        <InputEmailUp placeholder="email"/>
+        <InputPassUp placeholder="password"/>
         <SignUpBtn>Sign Up</SignUpBtn>
       </Wrapper>
     </Container>

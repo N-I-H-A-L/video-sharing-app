@@ -1,10 +1,14 @@
 import React from 'react';
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  //state in this case, is the "store" and "user" is the userSlice, from which currentUser is extracted.
+  const { currentUser } = useSelector(state=>state.user);
   return (
     <Container>
       <Wrapper>
@@ -12,9 +16,15 @@ const Navbar = () => {
           <Input placeholder="Search here" />
           <SearchOutlinedIcon />
         </Search>
-        <Link style={{textDecoration: "none"}} to="/signin">
-          <Button><AccountCircleOutlinedIcon />SIGN IN</Button>
-        </Link>
+        {currentUser? 
+          <User>
+            <VideoCallOutlinedIcon />
+            <Avatar />
+          </User> :
+          <Link style={{textDecoration: "none"}} to="/signin">
+            <Button><AccountCircleOutlinedIcon />SIGN IN</Button>
+          </Link>
+        }
       </Wrapper>
     </Container>
   );
@@ -79,5 +89,20 @@ const Button = styled.button`
   height: 90%;
 `;
 
+const User = styled.div`
+  height: 90%;
+  padding: 7px 5px;
+  display: flex;
+  align-items: center;
+`;
+
+const Avatar = styled.img`
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: #999;
+  margin-left: 20px;
+  margin-right: 10px;
+`;
 
 export default Navbar
