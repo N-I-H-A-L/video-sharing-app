@@ -20,7 +20,7 @@ import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightne
 
 const Menu = ({ getTheme, setTheme }) => {
   const toggleTheme = () =>{
-    if(getTheme=="dark") setTheme("light");
+    if(getTheme==="dark") setTheme("light");
     else setTheme("dark");
   }
   return (
@@ -33,18 +33,24 @@ const Menu = ({ getTheme, setTheme }) => {
           </Logo>
         </Link>
 
-        <Item>
-          <HomeIcon />
-          Home
-        </Item>
-        <Item>
-          <ExploreOutlinedIcon />
-          Explore
-        </Item>
-        <Item>
-          <SubscriptionsOutlinedIcon />
-          Subscriptions
-        </Item>
+        <Link style={{textDecoration: "none", color: "inherit"}} to="/">
+          <Item>
+            <HomeIcon />
+            Home
+          </Item>
+        </Link>
+        <Link style={{textDecoration: "none", color: "inherit"}} to="/trending">
+          <Item>
+            <ExploreOutlinedIcon />
+            Explore
+          </Item>
+        </Link>
+        <Link style={{textDecoration: "none", color: "inherit"}} to="/subscribed">
+          <Item>
+              <SubscriptionsOutlinedIcon />
+              Subscriptions
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <VideoLibraryOutlinedIcon />
@@ -99,7 +105,7 @@ const Menu = ({ getTheme, setTheme }) => {
 
         <Item>
           <SettingsBrightnessOutlinedIcon />
-          <ToggleBtn onClick={toggleTheme}>{(getTheme=="dark")?<span>Light Mode</span>:<span>Dark Mode</span>}</ToggleBtn>
+          <ToggleBtn onClick={toggleTheme}>{(getTheme==="dark")?<span>Light Mode</span>:<span>Dark Mode</span>}</ToggleBtn>
         </Item>
       </Wrapper>
     </Container>

@@ -1,21 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { format } from "timeago.js";
+import axiosClient from '../axios.js';
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = useState({});
+  useEffect(()=>{
+    const fetchChannel = async () =>{
+      //Fetch the user to which the video belongs to.
+      await axiosClient.get(`/user/find/${video.userId}`)
+        .then((res)=>{
+          //It will return the user object.
+          setChannel(res.data);
+        })
+        .catch((err)=>{
+          console.log("card comp ", err);
+        });
+    }
+    fetchChannel();
+  }, [video.userId]);
+
   return (
     //The whole card will be a link to the video
     <Link to="/video/test_id" style={{textDecoration: "none"}}>
       {/* Sending props to elements using Styled Components */}
       <Container type={type}>
-          <Image type={type} src="https://i9.ytimg.com/vi_webp/k3Vfj-e1Ma4/mqdefault.webp?v=6277c159&sqp=CIjm8JUG&rs=AOn4CLDeKmf_vlMC1q9RBEZu-XQApzm6sA" />
+          <Image type={type} src={video.imgUrl} />
           <Details type={type}>
-            <ChannelLogo type={type}/>
+            <ChannelLogo type={type} src={channel.img?channel.img:"abcd"}/>
             <VidDesc>
-              <VidName>This is the name of my first video on MeTube hope you iwll kiek it lorem15</VidName>
-              <ChannelName>Mera Channel</ChannelName>
+              <VidName>{video.title}</VidName>
+              <ChannelName>{channel.name}</ChannelName>
               <Info type={type}>
-                660,908 views • 1 day ago
+                {video.views} views • {format(video.createdAt)}
               </Info>
             </VidDesc>
           </Details>

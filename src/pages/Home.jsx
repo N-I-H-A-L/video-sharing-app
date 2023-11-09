@@ -3,29 +3,30 @@ import styled from 'styled-components';
 import Card from '../components/Card';
 import axiosClient from '../axios.js';
 
-const Home = () => {
+const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
   useEffect(()=>{
-    const fetchVideos = async ()=>{
-      await axiosClient.get("/video/random")
+    //Fetch videos of the type, "type" given as props.
+    const fetchVideos = async () => {
+      await axiosClient.get(`/video/${type}`)
         .then((res)=>{
-          //res.data will contain the information sent by the API (i.e., the videos).
-          console.log(res.data);
+          //res.data will contain the response sent by the API.
           setVideos(res.data);
         })
         .catch((err)=>{
-          console.log(err);
+          console.log("Home comp ", err);
         });
     }
 
     fetchVideos();
     //Created a function then called it since, the function of useEffect can't be declared as async.
-  }, []);
+  }, [type]);
 
   return (
     <Container>
-      {videos.map(()=>{
-        return <Card/>
+      {/* Render the videos by placing Card components */}
+      {videos.map((video)=>{
+        return <Card key={video._id} video={video}/>
       })}
     </Container>
   )

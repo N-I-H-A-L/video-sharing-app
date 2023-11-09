@@ -13,7 +13,7 @@ function App() {
   const [theme, setTheme] = useState("dark");
   return (
     //ThemeProvider of styled components helps to set theme easily.
-    <ThemeProvider theme={theme=="dark"?darkTheme:lightTheme}>
+    <ThemeProvider theme={theme==="dark"?darkTheme:lightTheme}>
       <Container>
       <BrowserRouter>
         <Menu getTheme={theme} setTheme={setTheme}/>
@@ -23,7 +23,9 @@ function App() {
             <Routes>
               <Route path="/">
                 {/* Nested Routes: "index" refers to the default element for "/" route.*/}
-                <Route index element={<Home />} />
+                <Route index element={<Home type="random"/>} />
+                <Route path="trending" element={<Home type="trend"/>} />
+                <Route path="subscribed" element={<Home type="subscribed"/>} />
                 <Route path="signin" element={<SignIn />} />
                 <Route path="video"> {/* When route is: "/video" */}
                   <Route path=":id" element={<Video />} /> {/* When route is: "/video/23534ajs" */}
