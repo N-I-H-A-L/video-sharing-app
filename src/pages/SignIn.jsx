@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice.js';
 
 const SignIn = () => {
+  axiosClient.defaults.withCredentials = true;
   const [name, setName] = useState();
   const [pass, setPass] = useState();
   const [email, setEmail] = useState();

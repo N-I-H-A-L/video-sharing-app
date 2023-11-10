@@ -5,6 +5,7 @@ import { format } from "timeago.js";
 import axiosClient from '../axios.js';
 
 const Card = ({ type, video }) => {
+  axiosClient.defaults.withCredentials = true;
   const [channel, setChannel] = useState({});
   useEffect(()=>{
     const fetchChannel = async () =>{
