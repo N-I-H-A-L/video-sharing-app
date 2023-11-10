@@ -4,11 +4,25 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from '../redux/userSlice';
+import LogoutIcon from '@mui/icons-material/Logout';
+import axiosClient from '../axios';
 
 const Navbar = () => {
   //state in this case, is the "store" and "user" is the userSlice, from which currentUser is extracted.
   const { currentUser } = useSelector(state=>state.user);
+  const dispatch = useDispatch();
+  const handleLogout = () =>{
+    //Remove the "persist:root", which contains the details of current user (persistor of redux) from local storage.
+    localStorage.removeItem("persist:root");
+    //For deleting the access_token cookie:
+    axiosClient.delete("/auth/logout")
+      .then()
+      .catch((err)=>console.log(err));
+    //Reset the state of "currentUser"
+    dispatch(logout());
+  }
   return (
     <Container>
       <Wrapper>
@@ -19,8 +33,9 @@ const Navbar = () => {
         {currentUser? 
           <User>
             <VideoCallOutlinedIcon />
-            <Avatar src={currentUser.img}/>
+            <Avatar src={currentUser.img} onClick={handleLogout}/>
             <Username>{currentUser.name}</Username>
+            <CustomLogoutIcon onClick={handleLogout}/>
           </User> :
           <Link style={{textDecoration: "none"}} to="/signin">
             <Button><AccountCircleOutlinedIcon />SIGN IN</Button>
@@ -108,6 +123,13 @@ const Avatar = styled.img`
 
 const Username = styled.div`
   color: ${({ theme }) => theme.text};
+  margin-right: 10px;
+`;
+
+const CustomLogoutIcon = styled(LogoutIcon)`
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 export default Navbar
