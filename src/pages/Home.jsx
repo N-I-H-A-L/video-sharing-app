@@ -13,7 +13,6 @@ const Home = ({ type }) => {
         .then((res)=>{
           //res.data will contain the response sent by the API.
           setVideos(res.data);
-          console.log(res.data);
         })
         .catch((err)=>{
           console.log("Home comp ", err);

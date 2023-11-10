@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import axiosClient from "../axios.js";
 import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice.js';
+import { auth, provider } from '../firebase.js';
+import { signInWithPopup } from 'firebase/auth';
 
 const SignIn = () => {
   axiosClient.defaults.withCredentials = true;
@@ -23,6 +25,22 @@ const SignIn = () => {
         });
   }
 
+  const signInWithGoogle = async () =>{
+    dispatch(loginStart());
+    signInWithPopup(auth, provider)
+      .then((res)=>{
+        axiosClient.post('/auth/google', {
+          name: res.user.displayName,
+          email: res.user.email,
+          img: res.user.photoURL
+        })
+        .then((res)=>{
+          dispatch(loginSuccess(res.data));
+        })
+      })
+      .catch((err)=> dispatch(loginFailure()));
+  }
+
   return (
     <Container>
       <Wrapper>
@@ -31,6 +49,8 @@ const SignIn = () => {
         <InputNameIn placeholder="username" value={name} onChange={(e)=>setName(e.target.value)}/>
         <InputPassIn placeholder="password" type="password" value={pass} onChange={(e)=>setPass(e.target.value)}/>
         <SignInBtn onClick={handleLogin}>Sign In</SignInBtn>
+        <Span>or</Span>
+        <GoogleBtn onClick={signInWithGoogle}>Sign In With Google</GoogleBtn>
         <Span>or</Span>
         <InputNameUp placeholder="username"/>
         <InputEmailUp placeholder="email"/>
@@ -97,6 +117,7 @@ const SignInBtn = styled.button`
 `;
 
 const SignUpBtn = styled(SignInBtn)``;
+const GoogleBtn = styled(SignInBtn)``;
 const Span = styled.span``;
 
 export default SignIn

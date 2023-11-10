@@ -19,7 +19,8 @@ const Navbar = () => {
         {currentUser? 
           <User>
             <VideoCallOutlinedIcon />
-            <Avatar />
+            <Avatar src={currentUser.img}/>
+            <Username>{currentUser.name}</Username>
           </User> :
           <Link style={{textDecoration: "none"}} to="/signin">
             <Button><AccountCircleOutlinedIcon />SIGN IN</Button>
@@ -103,6 +104,10 @@ const Avatar = styled.img`
   background-color: #999;
   margin-left: 20px;
   margin-right: 10px;
+`;
+
+const Username = styled.div`
+  color: ${({ theme }) => theme.text};
 `;
 
 export default Navbar
