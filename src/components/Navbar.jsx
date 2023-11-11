@@ -50,7 +50,7 @@ const Container = styled.div`
   background-color: ${({theme}) => theme.bg};
   position: sticky;
   top: 0;
-  height: 56px;
+  height: 65px;
 `;
 
 const Wrapper = styled.div`

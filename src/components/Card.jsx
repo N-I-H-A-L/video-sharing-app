@@ -24,7 +24,7 @@ const Card = ({ type, video }) => {
 
   return (
     //The whole card will be a link to the video
-    <Link to="/video/test_id" style={{textDecoration: "none"}}>
+    <Link to={`/video/${video._id}`} style={{textDecoration: "none"}}>
       {/* Sending props to elements using Styled Components */}
       <Container type={type}>
           <Image type={type} src={video.imgUrl} />
