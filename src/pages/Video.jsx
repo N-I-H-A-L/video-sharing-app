@@ -108,7 +108,7 @@ const Video = () => {
             <Subscribe onClick={handleSubscribe}>{currentUser.subscribedUsers.includes(channel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
           </ChannelInfo>
 
-          <Comments />
+          <Comments videoId={currentVideo._id}/>
         </Wrapper>
       </Content>
       

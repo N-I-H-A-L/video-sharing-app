@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { format } from "timeago.js";
+import axiosClient from '../axios';
 
-const Comment = () => {
+const Comment = ({ comment }) => {
+  const [user, setUser] = useState({});
+
+  useEffect(()=>{
+    const fetchData = async () =>{
+      const res = await axiosClient.get(`/user/find/${comment.userId}`);
+      setUser(res.data);
+    }
+    fetchData();
+  }, [comment._id]);
+
   return (
     <Container>
-      <Avatar src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo"/>
+      <Avatar src={user.img}/>
       <Wrapper>
         <Info>
-            <User>John Doe</User>
-            <Timestamp>1 day ago</Timestamp>
+            <User>{user.name}</User>
+            <Timestamp>{format(comment.createdAt)}</Timestamp>
         </Info>
-        <Content>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati eveniet earum dignissimos! Excepturi eaque, consectetur illo eveniet non magnam maxime assumenda, quasi, provident cum eligendi.</Content>
+        <Content>{comment.desc}</Content>
       </Wrapper>
     </Container>
   )
