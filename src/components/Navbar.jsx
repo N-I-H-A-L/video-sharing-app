@@ -3,7 +3,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from '../redux/userSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -26,13 +26,16 @@ const Navbar = () => {
   }
 
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search here" />
-            <SearchOutlinedIcon />
+            <Input placeholder="Search here" value={query} onChange={(e)=>setQuery(e.target.value)}/>
+            <SearchOutlinedIcon onClick={()=>navigate(`/search?q=${query}`)}/>
           </Search>
           {currentUser? 
             <User>
@@ -84,6 +87,7 @@ const Search = styled.div`
   width: 40%;
   font-size: 15px;
   font-family: 'Noto Sans', sans-serif;
+  color: ${({theme}) => theme.text};
 `;
 
 const Input = styled.input`
