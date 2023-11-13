@@ -14,6 +14,7 @@ import { format } from 'timeago.js';
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { handleSubscription } from '../redux/userSlice';
+import Recommendation from '../components/Recommendation';
 
 
 const Video = () => {
@@ -100,6 +101,7 @@ const Video = () => {
               </Button>
             </Options>
           </Utilities>
+          <Hr />
 
           <ChannelInfo>
             <ChannelLogo src={channel.img}/>
@@ -110,23 +112,13 @@ const Video = () => {
             </About>
             <Subscribe onClick={handleSubscribe}>{currentUser.subscribedUsers.includes(channel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
           </ChannelInfo>
+          <Hr />
 
           <Comments videoId={currentVideo._id}/>
         </Wrapper>
       </Content>
       
-      {/* <Recommend>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-        <Card type="sm"/>
-      </Recommend> */}
-
+      <Recommendation tags={currentVideo.tags}/>
     </Container>
   )
 }
@@ -142,10 +134,6 @@ const Content = styled.div`
   flex: 5;
 `;
 
-const Recommend = styled.div`
-  flex: 2;
-`;
-
 const Wrapper = styled.div`
   
 `;
@@ -153,7 +141,7 @@ const Wrapper = styled.div`
 const VideoWrapper = styled.div``;
 
 const VideoFrame = styled.video`
-  height: 600px;
+  height: 480px;
   width: 100%;
   object-fit: cover;
   margin: 0 !important;
@@ -199,6 +187,7 @@ const About = styled.div`
 
 const ChannelName = styled.div`
   font-size: 15px;
+  font-weight: bold;
 `;
 
 const SubsCount = styled.div`
@@ -209,6 +198,11 @@ const SubsCount = styled.div`
 const Desc = styled.div`
   margin-top: 10px;
   font-size: 15px;
+`;
+
+const Hr = styled.hr`
+  margin: 15px 5px;
+  border: 0.5px solid ${({ theme }) => theme.soft};
 `;
 
 const ChannelLogo = styled.img`

@@ -57,7 +57,7 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: ${(props)=>props.type==="sm"?"55%":"100%"};
   height: ${(props)=>props.type==="sm"?"100px":"202px"};;
   background-color: #999;
 `;
