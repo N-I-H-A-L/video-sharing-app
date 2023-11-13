@@ -73,7 +73,10 @@ const Video = () => {
 
       <Content>
         <Wrapper>
-          <VideoFrame src={currentVideo.videoUrl} />
+
+          <VideoWrapper>
+            <VideoFrame src={currentVideo.videoUrl} controls />
+          </VideoWrapper>
 
           <Title>{currentVideo.title}</Title>
 
@@ -144,13 +147,20 @@ const Recommend = styled.div`
 `;
 
 const Wrapper = styled.div`
-
+  
 `;
 
-const VideoFrame = styled.div`
-  max-height: 360px;
+const VideoWrapper = styled.div``;
+
+const VideoFrame = styled.video`
+  height: 600px;
   width: 100%;
   object-fit: cover;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+  margin: 0 auto;
+  box-sizing: border-box;
 `;
 
 const Title = styled.div`
