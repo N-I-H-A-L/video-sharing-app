@@ -88,9 +88,11 @@ const SignIn = () => {
 
 const Container = styled.div`
   display: flex;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 65px);
   align-items: center;
   justify-content: center;
+  position: relative;
+  bottom: 10px;
 `;
 
 const Sign = styled.div`

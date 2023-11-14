@@ -148,14 +148,14 @@ const Container = styled.div`
   display: flex;
   gap: 24px;
   padding-left: 20px;
-  height: calc(100vh - 65px);
-
+  
   @media (max-width: 1200px){
     padding: 15px;
   }
-
+  
   @media (max-width: 450px){
     padding: 15px;
+    height: calc(100vh - 65px);
   }
   `;
 
@@ -184,7 +184,7 @@ const VideoFrame = styled.video`
   }
   
   @media (max-width: 450px){
-    height: 180px;
+    height: 240px;
   }
 `;
 

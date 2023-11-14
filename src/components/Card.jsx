@@ -67,6 +67,10 @@ const Image = styled.img`
   width: ${(props)=>props.type==="sm"?"55%":"100%"};
   height: ${(props)=>props.type==="sm"?"100px":"202px"};;
   background-color: #999;
+
+  @media (max-width: 450px){
+    height: 170px;
+  }
 `;
 
 const Details = styled.div`
