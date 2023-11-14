@@ -54,6 +54,13 @@ const Container = styled.div`
     &:hover{
       cursor: pointer;
     }
+
+    @media (max-width: 450px){
+      margin: 10px 0px;
+      padding-left: 5px;
+      padding-right: 5px;
+      width: 100vw;
+    }
 `;
 
 const Image = styled.img`

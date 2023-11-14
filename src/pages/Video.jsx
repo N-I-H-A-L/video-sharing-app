@@ -82,7 +82,8 @@ const Video = () => {
         .catch((err)=> console.log(err));
       
       //Update the views of the video if currentUser is logged in.
-      if(currentUser){
+      if(currentUser!==null){
+        console.log("here", currentUser);
         await axiosClient.put(`/video/view/${videoId}`);
       }
     }
@@ -96,22 +97,22 @@ const Video = () => {
         <Wrapper>
 
           <VideoWrapper>
-            <VideoFrame src={currentVideo.videoUrl} controls />
+            <VideoFrame src={currentVideo?.videoUrl} controls />
           </VideoWrapper>
 
-          <Title>{currentVideo.title}</Title>
+          <Title>{currentVideo?.title}</Title>
 
           <Utilities>
             <Info>
-              {currentVideo.views.length} views • {format(currentVideo.createdAt)}
+              {currentVideo.views?.length} views • {format(currentVideo?.createdAt)}
             </Info>
             <Options>
               <Button>
                 {/* If currentVideo is liked by the current user then show the filled thumbs up icon else the outlined one. */}
-                {currentVideo.likes?.includes(currentUser?._id)? <ThumbUpIcon /> : <ThumbUpOutlinedIcon onClick={handleLike} />} {currentVideo.likes?.length}
+                {currentVideo?.likes?.includes(currentUser?._id)? <ThumbUpIcon /> : <ThumbUpOutlinedIcon onClick={handleLike} />} {currentVideo.likes?.length}
               </Button>
               <Button>
-                {currentVideo.dislikes?.includes(currentUser?._id)? <ThumbDownIcon /> : <ThumbDownOffAltOutlinedIcon onClick={handleDislike} />} Dislike
+                {currentVideo?.dislikes?.includes(currentUser?._id)? <ThumbDownIcon /> : <ThumbDownOffAltOutlinedIcon onClick={handleDislike} />} Dislike
               </Button>
               <Button>
                 <ReplyOutlinedIcon /> Share
@@ -146,13 +147,21 @@ const Video = () => {
 const Container = styled.div`
   display: flex;
   gap: 24px;
-  margin-top: 10px;
   padding-left: 20px;
-`;
+  height: calc(100vh - 65px);
+
+  @media (max-width: 1200px){
+    padding: 15px;
+  }
+
+  @media (max-width: 450px){
+    padding: 15px;
+  }
+  `;
 
 const Content = styled.div`
   flex: 5;
-`;
+  `;
 
 const Wrapper = styled.div`
   
@@ -169,6 +178,14 @@ const VideoFrame = styled.video`
   display: block;
   margin: 0 auto;
   box-sizing: border-box;
+  
+  @media (max-width: 768px){
+    height: 320px;
+  }
+  
+  @media (max-width: 450px){
+    height: 180px;
+  }
 `;
 
 const Title = styled.div`
@@ -180,6 +197,11 @@ const Title = styled.div`
 const Utilities = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 640px){
+    flex-direction: column;
+    gap: 15px;
+  }
 `;
 
 const Info = styled.div`
@@ -193,6 +215,10 @@ const Options = styled.div`
   align-items: center;
   gap: 10px;
   font-size: 14px;
+
+  @media (max-width: 450px){
+    font-size: 14px;
+  }
 `;
 
 const ChannelInfo = styled.div`

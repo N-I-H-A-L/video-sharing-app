@@ -24,6 +24,10 @@ const Recommendation = ({ tags }) => {
 
 const Container = styled.div`
     flex: 2;
+
+    @media (max-width: 1200px) {
+      display: none;
+    }
 `;
 
 export default Recommendation

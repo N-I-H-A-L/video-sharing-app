@@ -16,8 +16,6 @@ const Navbar = () => {
   const { currentUser } = useSelector(state=>state.user);
   const dispatch = useDispatch();
   const handleLogout = () =>{
-    //Remove the "persist:root", which contains the details of current user (persistor of redux) from local storage.
-    localStorage.removeItem("persist:root");
     //For deleting the access_token cookie:
     axiosClient.delete("/auth/logout")
       .then()
@@ -40,7 +38,7 @@ const Navbar = () => {
           </Search>
           {currentUser? 
             <User>
-              <VideoCallOutlinedIcon onClick={()=>setOpen(true)}/>
+              <CustomVideoCallOutlinedIcon onClick={()=>setOpen(true)}/>
               <Avatar src={currentUser.img?currentUser.img:Logo} onClick={handleLogout}/>
               <Username>{currentUser.name}</Username>
               <CustomLogoutIcon onClick={handleLogout}/>
@@ -62,6 +60,10 @@ const Container = styled.div`
   top: 0;
   height: 65px;
   z-index: 2;
+
+  @media (max-width: 450px){
+    width: 100vw;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -90,6 +92,11 @@ const Search = styled.div`
   font-size: 15px;
   font-family: 'Noto Sans', sans-serif;
   color: ${({theme}) => theme.text};
+
+  @media (max-width: 450px){
+    position: relative;
+    right: 15px;
+  }
 `;
 
 const Input = styled.input`
@@ -135,11 +142,21 @@ const Avatar = styled.img`
 const Username = styled.div`
   color: ${({ theme }) => theme.text};
   margin-right: 10px;
+
+  @media (max-width: 1068px){
+    display: none;
+  }
 `;
 
 const CustomLogoutIcon = styled(LogoutIcon)`
   &:hover{
     cursor: pointer;
+  }
+`;
+
+const CustomVideoCallOutlinedIcon = styled(VideoCallOutlinedIcon)`
+  @media (max-width: 1068px){
+    display: none !important;
   }
 `;
 
