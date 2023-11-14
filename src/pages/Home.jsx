@@ -15,7 +15,7 @@ const Home = ({ type }) => {
           setVideos(res.data);
         })
         .catch((err)=>{
-          console.log("Home comp ", err);
+          console.log(err);
         });
     }
 

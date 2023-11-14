@@ -80,6 +80,11 @@ const Video = () => {
             .catch((err)=> console.log(err));
         })
         .catch((err)=> console.log(err));
+      
+      //Update the views of the video if currentUser is logged in.
+      if(currentUser){
+        await axiosClient.put(`/video/view/${videoId}`);
+      }
     }
     fetchData();
   }, [videoId, dispatch]);
@@ -98,7 +103,7 @@ const Video = () => {
 
           <Utilities>
             <Info>
-              {currentVideo.views} views • {format(currentVideo.createdAt)}
+              {currentVideo.views.length} views • {format(currentVideo.createdAt)}
             </Info>
             <Options>
               <Button>

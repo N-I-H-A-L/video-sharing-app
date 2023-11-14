@@ -34,7 +34,7 @@ const Card = ({ type, video }) => {
               <VidName>{video.title}</VidName>
               <ChannelName>{channel.name}</ChannelName>
               <Info type={type}>
-                {video.views} views • {format(video.createdAt)}
+                {video.views.length} views • {format(video.createdAt)}
               </Info>
             </VidDesc>
           </Details>
