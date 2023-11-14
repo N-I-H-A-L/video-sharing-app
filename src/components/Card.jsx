@@ -69,7 +69,7 @@ const Image = styled.img`
   background-color: #999;
 
   @media (max-width: 450px){
-    height: 170px;
+    height: 210px;
   }
 `;
 

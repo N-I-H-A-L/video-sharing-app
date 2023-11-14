@@ -148,6 +148,7 @@ const Container = styled.div`
   display: flex;
   gap: 24px;
   padding-left: 20px;
+  min-height: calc(100vh - 65px);
   
   @media (max-width: 1200px){
     padding: 15px;
@@ -155,7 +156,6 @@ const Container = styled.div`
   
   @media (max-width: 450px){
     padding: 15px;
-    height: calc(100vh - 65px);
   }
   `;
 
