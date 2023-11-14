@@ -15,6 +15,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { handleSubscription } from '../redux/userSlice';
 import Recommendation from '../components/Recommendation';
+import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
 
 
 const Video = () => {
@@ -118,7 +119,7 @@ const Video = () => {
           <Hr />
 
           <ChannelInfo>
-            <ChannelLogo src={channel.img}/>
+            <ChannelLogo src={channel.img?channel.img:Logo}/>
             <About>
               <ChannelName>{channel.name}</ChannelName>
               <SubsCount>{channel.subscribers} subscribers</SubsCount>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { format } from "timeago.js";
 import axiosClient from '../axios';
+import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
 
 const Comment = ({ comment }) => {
   const [user, setUser] = useState({});
@@ -16,7 +17,7 @@ const Comment = ({ comment }) => {
 
   return (
     <Container>
-      <Avatar src={user.img}/>
+      <Avatar src={user.img?user.img:Logo}/>
       <Wrapper>
         <Info>
             <User>{user.name}</User>

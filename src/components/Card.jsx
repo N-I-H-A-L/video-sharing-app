@@ -16,7 +16,7 @@ const Card = ({ type, video }) => {
           setChannel(res.data);
         })
         .catch((err)=>{
-          console.log("card comp ", err);
+          console.log(err);
         });
     }
     fetchChannel();

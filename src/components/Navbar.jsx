@@ -9,6 +9,7 @@ import { logout } from '../redux/userSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axiosClient from '../axios';
 import Upload from './Upload.jsx';
+import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
 
 const Navbar = () => {
   //state in this case, is the "store" and "user" is the userSlice, from which currentUser is extracted.
@@ -40,7 +41,7 @@ const Navbar = () => {
           {currentUser? 
             <User>
               <VideoCallOutlinedIcon onClick={()=>setOpen(true)}/>
-              <Avatar src={currentUser.img} onClick={handleLogout}/>
+              <Avatar src={currentUser.img?currentUser.img:Logo} onClick={handleLogout}/>
               <Username>{currentUser.name}</Username>
               <CustomLogoutIcon onClick={handleLogout}/>
             </User> :
@@ -60,6 +61,7 @@ const Container = styled.div`
   position: sticky;
   top: 0;
   height: 65px;
+  z-index: 2;
 `;
 
 const Wrapper = styled.div`
@@ -126,7 +128,6 @@ const Avatar = styled.img`
   height: 36px;
   width: 36px;
   border-radius: 50%;
-  background-color: #999;
   margin-left: 20px;
   margin-right: 10px;
 `;

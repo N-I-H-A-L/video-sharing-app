@@ -5,13 +5,18 @@ import { useDispatch } from 'react-redux';
 import { loginFailure, loginStart, loginSuccess } from '../redux/userSlice.js';
 import { auth, provider } from '../firebase.js';
 import { signInWithPopup } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   axiosClient.defaults.withCredentials = true;
-  const [name, setName] = useState();
-  const [pass, setPass] = useState();
-  const [email, setEmail] = useState();
+  const [name, setName] = useState("");
+  const [pass, setPass] = useState("");
+
+  const [signName, setSignName] = useState("");
+  const [signPass, setSignPass] = useState("");
+  const [signEmail, setSignEmail] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) =>{
     e.preventDefault();
@@ -19,8 +24,10 @@ const SignIn = () => {
     await axiosClient.post("/auth/signin", {name, password: pass})
         .then((res)=>{
           dispatch(loginSuccess(res.data));
+          navigate("/");
         })
-        .catch(()=>{
+        .catch((err)=>{
+          if(err.response.status===404) alert("Invalid user credentials.");
           dispatch(loginFailure());
         });
   }
@@ -36,9 +43,27 @@ const SignIn = () => {
         })
         .then((res)=>{
           dispatch(loginSuccess(res.data));
+          navigate("/");
         })
       })
       .catch((err)=> dispatch(loginFailure()));
+  }
+
+  const handleSignUp = async () =>{
+    await axiosClient.post('/auth/signup', {
+      name: signName,
+      password: signPass,
+      email: signEmail
+    })
+    .then((res)=>{
+      console.log(res.data);
+    }).catch((err)=>{
+      console.log(err);
+    });
+    alert("Account Created. Please Sign in.");
+    setSignName("");
+    setSignPass("");
+    setSignEmail("");
   }
 
   return (
@@ -52,10 +77,10 @@ const SignIn = () => {
         <Span>or</Span>
         <GoogleBtn onClick={signInWithGoogle}>Sign In With Google</GoogleBtn>
         <Span>or</Span>
-        <InputNameUp placeholder="username"/>
-        <InputEmailUp placeholder="email"/>
-        <InputPassUp placeholder="password"/>
-        <SignUpBtn>Sign Up</SignUpBtn>
+        <InputNameUp placeholder="username" onChange={(e)=> setSignName(e.target.value)}/>
+        <InputEmailUp placeholder="email" onChange={(e)=> setSignPass(e.target.value)}/>
+        <InputPassUp placeholder="password" type="password" onChange={(e)=> setSignEmail(e.target.value)}/>
+        <SignUpBtn onClick={handleSignUp}>Sign Up</SignUpBtn>
       </Wrapper>
     </Container>
   )
