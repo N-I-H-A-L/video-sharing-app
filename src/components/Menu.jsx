@@ -47,7 +47,7 @@ const Menu = ({ getTheme, setTheme }) => {
             Explore
           </Item>
         </Link>
-        <Link style={{textDecoration: "none", color: "inherit"}} to="/subscribed">
+        <Link style={{textDecoration: "none", color: "inherit"}} to={currentUser?"/subscribed":"/signin"}>
           <Item>
               <SubscriptionsOutlinedIcon />
               Subscriptions

@@ -23,10 +23,14 @@ const Comments = ({ videoId }) => {
 
   return (
     <Container>
-      <NewComment>
-        <Avatar src={currentUser.img} />
-        <Input placeholder="Add a comment..." />
-      </NewComment>    
+      {currentUser 
+        ? <NewComment>
+            <Avatar src={currentUser.img} />
+            <Input placeholder="Add a comment..." />
+          </NewComment>   
+        : <AddComment>
+            <Div>Login to add comment.</Div>
+          </AddComment>} 
       {comments.map((comment)=>{
         return <Comment comment={comment} key={comment._id}/>
       })}
@@ -61,6 +65,13 @@ const Input = styled.input`
   width: 100%;
   font-family: 'Noto Sans', sans-serif;
   color: ${({ theme }) => theme.text};
+  `;
+
+const AddComment = styled.div`
+  margin-bottom: 20px;
+  `;
+const Div = styled.div`
+  color: ${({ theme }) => theme.textSoft};
 `;
 
 export default Comments

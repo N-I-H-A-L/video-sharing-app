@@ -6,7 +6,7 @@ import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from '../components/Comments';
 import Card from '../components/Card';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../axios';
 import { dislike, fetchSuccess, like } from '../redux/videoSlice';
@@ -21,6 +21,7 @@ const Video = () => {
   const { currentUser } = useSelector((state)=>state.user);
   const { currentVideo } = useSelector((state)=> state.video);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //Get the video ID from URL.
   const videoId = useLocation().pathname.split('/')[2];
@@ -28,18 +29,31 @@ const Video = () => {
   const [channel, setChannel] = useState({});
 
   const handleLike = async () =>{
-    //API Route for adding the current user to the 'likes' array of current video.
-    await axiosClient.put(`/user/like/${currentVideo._id}`);
-    //To change the state using redux and render the component again.
-    dispatch(like(currentUser._id));
+    if(currentUser){
+      //API Route for adding the current user to the 'likes' array of current video.
+      await axiosClient.put(`/user/like/${currentVideo._id}`);
+      //To change the state using redux and render the component again.
+      dispatch(like(currentUser._id));
+    }
+    else{
+      navigate('/signin');
+    }
   }
   
   const handleDislike = async () =>{
-    await axiosClient.put(`/user/dislike/${currentVideo._id}`);
-    dispatch(dislike(currentUser._id));
+    if(currentUser){
+      await axiosClient.put(`/user/dislike/${currentVideo._id}`);
+      dispatch(dislike(currentUser._id));
+    }
+    else{
+      navigate('/signin');
+    }
   }
-
+  
   const handleSubscribe = async () =>{
+    if(!currentUser){
+      navigate('/signin');
+    }
     if(currentUser.subscribedUsers?.includes(channel._id)){
       //Subscribe
       await axiosClient.put(`/user/unsub/${channel._id}`);
@@ -88,10 +102,10 @@ const Video = () => {
             <Options>
               <Button>
                 {/* If currentVideo is liked by the current user then show the filled thumbs up icon else the outlined one. */}
-                {currentVideo.likes?.includes(currentUser._id)? <ThumbUpIcon /> : <ThumbUpOutlinedIcon onClick={handleLike} />} {currentVideo.likes?.length}
+                {currentVideo.likes?.includes(currentUser?._id)? <ThumbUpIcon /> : <ThumbUpOutlinedIcon onClick={handleLike} />} {currentVideo.likes?.length}
               </Button>
               <Button>
-                {currentVideo.dislikes?.includes(currentUser._id)? <ThumbDownIcon /> : <ThumbDownOffAltOutlinedIcon onClick={handleDislike} />} Dislike
+                {currentVideo.dislikes?.includes(currentUser?._id)? <ThumbDownIcon /> : <ThumbDownOffAltOutlinedIcon onClick={handleDislike} />} Dislike
               </Button>
               <Button>
                 <ReplyOutlinedIcon /> Share
@@ -110,7 +124,7 @@ const Video = () => {
               <SubsCount>{channel.subscribers} subscribers</SubsCount>
               <Desc>{currentVideo.desc}</Desc>
             </About>
-            <Subscribe onClick={handleSubscribe}>{currentUser.subscribedUsers.includes(channel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
+            <Subscribe onClick={handleSubscribe}>{currentUser?.subscribedUsers.includes(channel._id) ? "Subscribed" : "Subscribe"}</Subscribe>
           </ChannelInfo>
           <Hr />
 

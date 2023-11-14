@@ -10,7 +10,6 @@ const Search = () => {
 
     useEffect(()=>{
         const fetchVideos = async () =>{
-            console.log(query);
             const res = await axiosClient.get(`/video/search${query}`);
             setVideos(res.data);
         }
