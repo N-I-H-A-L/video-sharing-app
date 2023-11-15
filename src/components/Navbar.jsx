@@ -5,11 +5,13 @@ import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from '../redux/userSlice';
+import { loginSuccess, logout, updateProfilePic } from '../redux/userSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axiosClient from '../axios';
 import Upload from './Upload.jsx';
 import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import firebase from "../firebase.js";
 
 const Navbar = () => {
   //state in this case, is the "store" and "user" is the userSlice, from which currentUser is extracted.
@@ -27,6 +29,53 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const [popup, setPopup] = useState(false);
+
+  const handlePopup = () =>{
+    setPopup(!popup);
+  }
+
+  const updateProfile = async (e) =>{
+    const file = e.target.files[0];
+    uploadFile(file);
+  }
+
+  const uploadFile = (file) =>{
+    const storage = getStorage(firebase);
+    //The file name will include the creation data
+    const fileName = new Date().getTime() + file.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            break;
+        }
+      },
+      (error) => {},
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          await axiosClient.post('/user/profile', {
+            img: downloadURL
+          }).then(()=>{
+            //Update currentUser.
+            dispatch(updateProfilePic(downloadURL));
+            setPopup(false);
+          }).catch((err)=>{
+            console.log(err);
+          });
+        });
+      }
+    );
+  }
 
   return (
     <>
@@ -39,7 +88,10 @@ const Navbar = () => {
           {currentUser? 
             <User>
               <CustomVideoCallOutlinedIcon onClick={()=>setOpen(true)}/>
-              <Avatar src={currentUser.img?currentUser.img:Logo} onClick={handleLogout}/>
+              <AvatarWrapper>
+                <Avatar src={currentUser.img?currentUser.img:Logo} onClick={()=> {handlePopup()}}/>
+                <UpdateProfile name="thumbnail" type="file" accept="image/*" style={popup?{display: "block"}:{display:"none"}} onChange={(e)=> {updateProfile(e)}}/>
+              </AvatarWrapper>
               <Username>{currentUser.name}</Username>
               <CustomLogoutIcon onClick={handleLogout}/>
             </User> :
@@ -131,12 +183,41 @@ const User = styled.div`
   align-items: center;
 `;
 
+const AvatarWrapper = styled.div`
+  margin-left: 20px;
+  margin-right: 10px;
+  position: relative;
+`;
+
+const UpdateProfile = styled.input`
+  border: none;
+  outline: none;
+  color: ${({ theme }) => theme.textSoft};
+  background-color: ${({ theme }) => theme.bgLighter};
+  position: absolute;
+  top: 45px;
+  left: -70px;
+  width: 190px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid ${({ theme }) => theme.text};
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+
+  &::placeholder{
+    color: ${({ theme }) => theme.textSoft};
+  }
+`;
+
 const Avatar = styled.img`
   height: 36px;
   width: 36px;
   border-radius: 50%;
-  margin-left: 20px;
-  margin-right: 10px;
+
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 const Username = styled.div`
@@ -149,6 +230,8 @@ const Username = styled.div`
 `;
 
 const CustomLogoutIcon = styled(LogoutIcon)`
+  margin: 0;
+  padding: 0;
   &:hover{
     cursor: pointer;
   }

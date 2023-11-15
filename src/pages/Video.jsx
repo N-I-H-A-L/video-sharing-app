@@ -83,7 +83,6 @@ const Video = () => {
       
       //Update the views of the video if currentUser is logged in.
       if(currentUser!==null){
-        console.log("here", currentUser);
         await axiosClient.put(`/video/view/${videoId}`);
       }
     }

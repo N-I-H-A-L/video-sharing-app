@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { format } from "timeago.js";
 import axiosClient from '../axios.js';
+import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg";
 
 const Card = ({ type, video }) => {
   axiosClient.defaults.withCredentials = true;
@@ -29,7 +30,7 @@ const Card = ({ type, video }) => {
       <Container type={type}>
           <Image type={type} src={video.imgUrl} />
           <Details type={type}>
-            <ChannelLogo type={type} src={channel.img?channel.img:"abcd"}/>
+            <ChannelLogo type={type} src={channel.img?channel.img:Logo}/>
             <VidDesc>
               <VidName>{video.title}</VidName>
               <ChannelName>{channel.name}</ChannelName>

@@ -44,7 +44,6 @@ const Upload = ({ setOpen }) => {
     const fileName = new Date().getTime() + file.name;
     const storageRef = ref(storage, fileName);
     const uploadTask = uploadBytesResumable(storageRef, file);
-    console.log("here");
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -123,8 +122,8 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-    height: 600px;
-    width: 600px;
+    height: 550px;
+    width: 550px;
     background-color: ${({theme})=> theme.bgLighter};
     color: ${({theme})=> theme.text};
     display: flex;

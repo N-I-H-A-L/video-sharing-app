@@ -40,13 +40,15 @@ const SignIn = () => {
           name: res.user.displayName,
           email: res.user.email,
           img: res.user.photoURL
-        })
-        .then((res)=>{
+        }).then((res)=>{
           dispatch(loginSuccess(res.data));
           navigate("/");
+        }).catch((err)=>{
+          console.log(err);
         })
       })
       .catch((err)=> dispatch(loginFailure()));
+      
   }
 
   const handleSignUp = async () =>{
@@ -56,11 +58,11 @@ const SignIn = () => {
       email: signEmail
     })
     .then((res)=>{
-      console.log(res.data);
+      dispatch(loginSuccess(res.data));
+      navigate("/");
     }).catch((err)=>{
       console.log(err);
     });
-    alert("Account Created. Please Sign in.");
     setSignName("");
     setSignPass("");
     setSignEmail("");
@@ -77,9 +79,9 @@ const SignIn = () => {
         <Span>or</Span>
         <GoogleBtn onClick={signInWithGoogle}>Sign In With Google</GoogleBtn>
         <Span>or</Span>
-        <InputNameUp placeholder="username" onChange={(e)=> setSignName(e.target.value)}/>
-        <InputEmailUp placeholder="email" onChange={(e)=> setSignPass(e.target.value)}/>
-        <InputPassUp placeholder="password" type="password" onChange={(e)=> setSignEmail(e.target.value)}/>
+        <InputNameUp placeholder="username" onChange={(e)=> setSignName(e.target.value)} value={signName}/>
+        <InputEmailUp placeholder="email" onChange={(e)=> setSignEmail(e.target.value)} value={signEmail}/>
+        <InputPassUp placeholder="password" type="password" onChange={(e)=> setSignPass(e.target.value)} value={signPass}/>
         <SignUpBtn onClick={handleSignUp}>Sign Up</SignUpBtn>
       </Wrapper>
     </Container>
