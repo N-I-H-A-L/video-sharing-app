@@ -197,7 +197,7 @@ const UpdateProfile = styled.input`
   position: absolute;
   top: 45px;
   left: -70px;
-  width: 190px;
+  width: 100px;
   height: 30px;
   padding: 5px;
   border: 1px solid ${({ theme }) => theme.text};
@@ -207,6 +207,9 @@ const UpdateProfile = styled.input`
 
   &::placeholder{
     color: ${({ theme }) => theme.textSoft};
+  }
+  &::file-selector-button{
+    display: none;
   }
 `;
 
