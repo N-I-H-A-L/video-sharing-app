@@ -26,6 +26,9 @@ const Home = ({ type }) => {
   return (
     <Container>
       {/* Render the videos by placing Card components */}
+      {!videos.length &&
+        <Loader>Loading...</Loader>
+      }
       {videos.map((video)=>{
           return <Card key={video._id} video={video}/>
         })
@@ -38,6 +41,13 @@ const Container = styled.div`
     display: flex;
     //to wrap the card components
     flex-wrap: wrap;
+`;
+
+const Loader = styled.div`
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  font-size: 20px;
 `;
 
 export default Home

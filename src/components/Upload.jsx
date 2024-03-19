@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import firebase from "../firebase.js";
 import axiosClient from '../axios';
 import { useNavigate } from 'react-router-dom';
+import { s3 } from '../awsConfig.js';
 
 const Upload = ({ setOpen }) => {
   const navigate = useNavigate();
@@ -39,40 +38,34 @@ const Upload = ({ setOpen }) => {
   }
 
   const uploadFile = (file, urlType) =>{
-    const storage = getStorage(firebase);
-    //The file name will include the creation data
-    const fileName = new Date().getTime() + file.name;
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          //If file is image, setThumbnailPerc else setVideoPerc.
-        urlType === "imgUrl" ? setThumbnailPerc(Math.round(progress)) : setVideoPerc(Math.round(progress));
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
+    const params = {
+      Bucket: 'videosmetube',
+      Key: file.name, // The path where you want to upload the file in S3
+      Body: file
+    };
+
+    const upload = s3.upload(params);
+
+    upload.on('httpUploadProgress', (progress) => {
+        const percentage = Math.round((progress.loaded / progress.total) * 100);
+        if(urlType=="imgUrl"){
+          setThumbnailPerc(percentage);
         }
-      },
-      (error) => {},
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setInputs((prev) => {
-            //Save the URLs of video and thumbnail to 'inputs' state variable.
-            return { ...prev, [urlType]: downloadURL };
-          });
-        });
-      }
-    );
-  }
+        else setVideoPerc(percentage);
+    });
+
+    upload.send((err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+            setInputs((prev) => {
+              //Save the URLs of video and thumbnail to 'inputs' state variable.
+              return { ...prev, [urlType]: data.Location };
+            });
+            console.log('File uploaded successfully:', data.Location);
+        }
+    });
+}
 
   useEffect(()=>{
     //If there's a video then only call the uploadFile function.
