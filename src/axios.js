@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: `https://video-sharing-app-x6z9.onrender.com/api`,
+    baseURL: process.env.REACT_APP_SERVER,
     // baseURL: `http://localhost:5000/api`,
     headers: {
       'Accept': 'application/json',
