@@ -26,9 +26,9 @@ const Search = () => {
 }
 
 const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    min-height: calc(100vh - 65px);
+  display: flex;
+  flex-wrap: wrap;
+  min-height: calc(100vh - 65px);
 `;
 
 export default Search

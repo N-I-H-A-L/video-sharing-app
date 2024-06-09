@@ -38,9 +38,9 @@ const Home = ({ type }) => {
 }
 
 const Container = styled.div`
-    display: flex;
-    //to wrap the card components
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  height: calc(100vh - 65px);
 `;
 
 const Loader = styled.div`
