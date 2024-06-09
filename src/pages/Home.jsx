@@ -27,7 +27,10 @@ const Home = ({ type }) => {
     <Container>
       {/* Render the videos by placing Card components */}
       {!videos.length &&
-        <Loader>Loading...</Loader>
+        <Loader>
+          <Loading>Loading...</Loading>
+          <Desc>Server is slow, sorry for the inconvenience.</Desc>
+        </Loader>
       }
       {videos.map((video)=>{
           return <Card key={video._id} video={video}/>
@@ -40,14 +43,29 @@ const Home = ({ type }) => {
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: calc(100vh - 65px);
 `;
 
 const Loader = styled.div`
   margin-left: auto;
   margin-right: auto;
-  margin-top: 15px;
   font-size: 20px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100vh - 115px);
+`;
+
+const Loading = styled.div`
+  
+`;
+
+const Desc = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+  align-items: center;
 `;
 
 export default Home
