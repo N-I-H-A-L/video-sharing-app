@@ -12,6 +12,7 @@ const Home = ({ type }) => {
       await axiosClient.get(`/video/${type}`)
         .then((res)=>{
           //res.data will contain the response sent by the API.
+          console.log(res.data);
           setVideos(res.data);
         })
         .catch((err)=>{

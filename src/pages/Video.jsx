@@ -28,6 +28,7 @@ const Video = () => {
   const videoId = useLocation().pathname.split('/')[2];
 
   const [channel, setChannel] = useState({});
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const handleLike = async () =>{
     if(currentUser){
@@ -89,14 +90,26 @@ const Video = () => {
     fetchData();
   }, [videoId, dispatch]);
 
+  const handlePlayVideo = () => {
+    setIsPlaying(true); // Load the video when user clicks play
+  };
+
   return (
     <Container>
 
       <Content>
         <Wrapper>
 
-          <VideoWrapper>
-            <VideoFrame src={currentVideo?.videoUrl} controls />
+        <VideoWrapper>
+            {!isPlaying ? (
+              <Thumbnail
+                src={currentVideo?.imgUrl}
+                alt="Video thumbnail"
+                onClick={handlePlayVideo}
+              />
+            ) : (
+              <VideoFrame src={currentVideo?.videoUrl} controls autoPlay />
+            )}
           </VideoWrapper>
 
           <Title>{currentVideo?.title}</Title>
@@ -167,6 +180,13 @@ const Wrapper = styled.div`
 `;
 
 const VideoWrapper = styled.div``;
+
+const Thumbnail = styled.img`
+  width: 100%;
+  height: 480px;
+  cursor: pointer;
+  object-fit: cover;
+`;
 
 const VideoFrame = styled.video`
   height: 480px;
