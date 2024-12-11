@@ -5,7 +5,6 @@ import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutl
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import Comments from '../components/Comments';
-import Card from '../components/Card';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axiosClient from '../axios';
@@ -17,6 +16,7 @@ import { handleSubscription } from '../redux/userSlice';
 import Recommendation from '../components/Recommendation';
 import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
 
+const Card = React.lazy(() => import('../components/Card.jsx'));
 
 const Video = () => {
   const { currentUser } = useSelector((state)=>state.user);

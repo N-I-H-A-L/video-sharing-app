@@ -1,24 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Card from '../components/Card';
-import axiosClient from '../axios.js';
+import React, { useEffect, useState, Suspense } from "react";
+import styled from "styled-components";
+import axiosClient from "../axios.js";
+
+const Card = React.lazy(() => import("../components/Card.jsx"));
 
 const Home = ({ type }) => {
   axiosClient.defaults.withCredentials = true;
   const [videos, setVideos] = useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     //Fetch videos of the type, "type" given as props.
     const fetchVideos = async () => {
-      await axiosClient.get(`/video/${type}`)
-        .then((res)=>{
+      await axiosClient
+        .get(`/video/${type}`)
+        .then((res) => {
           //res.data will contain the response sent by the API.
           console.log(res.data);
           setVideos(res.data);
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err);
         });
-    }
+    };
 
     fetchVideos();
     //Created a function then called it since, the function of useEffect can't be declared as async.
@@ -27,19 +29,27 @@ const Home = ({ type }) => {
   return (
     <Container>
       {/* Render the videos by placing Card components */}
-      {!videos.length &&
+      {!videos.length && (
         <Loader>
           <Loading>Loading...</Loading>
           <Desc>Server is slow, sorry for the inconvenience.</Desc>
         </Loader>
-      }
-      {videos.map((video)=>{
-          return <Card key={video._id} video={video}/>
-        })
-      }
+      )}
+      <Suspense
+        fallback={
+          <Loader>
+            <Loading>Loading...</Loading>
+            <Desc>Server is slow, sorry for the inconvenience.</Desc>
+          </Loader>
+        }
+      >
+        {videos.map((video) => {
+          return <Card key={video._id} video={video} />;
+        })}
+      </Suspense>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   display: flex;
@@ -57,9 +67,7 @@ const Loader = styled.div`
   height: calc(100vh - 115px);
 `;
 
-const Loading = styled.div`
-  
-`;
+const Loading = styled.div``;
 
 const Desc = styled.div`
   display: flex;
@@ -69,4 +77,4 @@ const Desc = styled.div`
   align-items: center;
 `;
 
-export default Home
+export default Home;
