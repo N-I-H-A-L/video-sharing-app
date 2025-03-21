@@ -39,7 +39,7 @@ const Upload = ({ setOpen }) => {
 
   const uploadFile = (file, urlType) =>{
     const params = {
-      Bucket: 'videosmetube',
+      Bucket: "video-sharing-app",
       Key: file.name, // The path where you want to upload the file in S3
       Body: file
     };
@@ -48,7 +48,7 @@ const Upload = ({ setOpen }) => {
 
     upload.on('httpUploadProgress', (progress) => {
         const percentage = Math.round((progress.loaded / progress.total) * 100);
-        if(urlType=="imgUrl"){
+        if(urlType==="imgUrl"){
           setThumbnailPerc(percentage);
         }
         else setVideoPerc(percentage);
