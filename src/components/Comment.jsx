@@ -13,7 +13,7 @@ const Comment = ({ comment }) => {
       setUser(res.data);
     }
     fetchData();
-  }, [comment._id]);
+  }, [comment.userId, comment._id]);
 
   return (
     <Container>

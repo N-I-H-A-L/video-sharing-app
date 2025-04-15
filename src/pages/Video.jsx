@@ -16,8 +16,6 @@ import { handleSubscription } from '../redux/userSlice';
 import Recommendation from '../components/Recommendation';
 import Logo from "../images/vecteezy_default-profile-account-unknown-icon-black-silhouette_20765399.jpg"
 
-const Card = React.lazy(() => import('../components/Card.jsx'));
-
 const Video = () => {
   const { currentUser } = useSelector((state)=>state.user);
   const { currentVideo } = useSelector((state)=> state.video);
@@ -88,7 +86,7 @@ const Video = () => {
       }
     }
     fetchData();
-  }, [videoId, dispatch]);
+  }, [videoId, dispatch, currentUser]);
 
   const handlePlayVideo = () => {
     setIsPlaying(true); // Load the video when user clicks play

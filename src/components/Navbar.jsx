@@ -5,7 +5,7 @@ import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import styled from "styled-components";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, logout, updateProfilePic } from '../redux/userSlice';
+import { logout, updateProfilePic } from '../redux/userSlice';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axiosClient from '../axios';
 import Upload from './Upload.jsx';

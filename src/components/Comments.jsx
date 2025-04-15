@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Comment from './Comment';
 import axiosClient from "./../axios.js";
@@ -11,7 +11,7 @@ const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
-  const fetchData = async () =>{
+  const fetchData = useCallback(async () =>{
     try{
       const res = await axiosClient.get(`/comment/${videoId}`);
       setComments(res.data);
@@ -19,7 +19,7 @@ const Comments = ({ videoId }) => {
     catch(err){
       console.log(err);
     }
-  }
+  }, [videoId]);
 
   const handleKeyPress = async (e) =>{
     if(e.key === 'Enter'){
@@ -37,7 +37,7 @@ const Comments = ({ videoId }) => {
 
   useEffect(()=>{
     fetchData();
-  }, [videoId]);
+  }, [videoId, fetchData]);
 
   return (
     <Container>
