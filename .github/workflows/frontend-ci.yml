@@ -22,8 +22,8 @@ jobs:
 
       - name: Build frontend
         run: npm run build
-        # env:
-        #   REACT_APP_SERVER_URL: http://<public-ip>:5000  # Replace with backend IP or domain
+        env:
+          REACT_APP_SERVER_URL: https://video-sharing-app-x6z9.onrender.com  # Replace with backend IP or domain
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
